@@ -1,4 +1,4 @@
-package cc.lzhong.scalaz.util;
+package cc.lzhong.scalez.util;
 
 public class AppMessage {
 

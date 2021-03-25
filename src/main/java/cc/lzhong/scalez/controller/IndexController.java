@@ -1,4 +1,4 @@
-package cc.lzhong.scalaz.controller;
+package cc.lzhong.scalez.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

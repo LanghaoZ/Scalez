@@ -1,6 +1,4 @@
-package cc.lzhong.scalaz.util;
-
-import cc.lzhong.scalaz.util.AppMessage;
+package cc.lzhong.scalez.util;
 
 public class Result<T> {
 

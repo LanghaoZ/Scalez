@@ -1,4 +1,4 @@
-package cc.lzhong.scalaz;
+package cc.lzhong.scalez;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
