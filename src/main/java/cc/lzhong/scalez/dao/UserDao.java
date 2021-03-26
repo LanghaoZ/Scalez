@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Select;
 public interface UserDao {
 
     @Select("select * from User where id=#{id}")
-    public User getUserById(@Param("id") int id);
+    public User getUserById(@Param("id") Long id);
 }

@@ -38,7 +38,7 @@ public class TestController {
     @GetMapping("/dbconnect")
     @ResponseBody
     public Result<User> returnUserFromDB() {
-        User user = userService.getUserById(1);
+        User user = userService.getUserById(1L);
 
         return Result.success(user);
     }
@@ -54,8 +54,10 @@ public class TestController {
     @ResponseBody
     public Result<Boolean> returnRedisSet() {
         User user = new User();
-        user.setId(1);
+        user.setId(1L);
         user.setName("redis");
+        user.setPassword("password");
+        user.setSalt("salt");
         Boolean result = redisService.set(UserKeyPrefix.getPrefixById, "" + 2, user);
         return Result.success(result);
     }

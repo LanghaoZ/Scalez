@@ -1,0 +1,8 @@
+
+CREATE TABLE `User` (
+    `id` BIGINT(20) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `password` VARCHAR(32) DEFAULT NULL,
+    `salt` VARCHAR(10) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
