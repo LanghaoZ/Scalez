@@ -39,5 +39,6 @@ build/
 Thumbs.db
 .Trashes
 
-### SQL Files ###
+### Related Files ###
 sql/registerUser.sql
+redis/*
