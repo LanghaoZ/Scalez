@@ -1,4 +1,4 @@
-package cc.lzhong.scalez.util;
+package cc.lzhong.scalez.util.response;
 
 public class Result<T> {
 
