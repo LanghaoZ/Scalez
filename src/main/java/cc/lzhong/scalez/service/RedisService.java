@@ -9,7 +9,7 @@ import redis.clients.jedis.JedisPool;
 @Service
 public class RedisService {
 
-    private JedisPool jedisPool;
+    private final JedisPool jedisPool;
 
     public RedisService(JedisPool jedisPool) {
         this.jedisPool = jedisPool;
@@ -21,9 +21,8 @@ public class RedisService {
             jedis = jedisPool.getResource();
             String indexKey = prefix.getPrefix() + key;
             String value = jedis.get(indexKey);
-            T result = convertStringToValue(value, valueClass);
 
-            return result;
+            return convertStringToValue(value, valueClass);
         } finally {
             releaseJedisToPool(jedis);
         }
@@ -32,15 +31,57 @@ public class RedisService {
     public <T> Boolean set(RedisKeyPrefix prefix, String key, T value) {
         Jedis jedis = null;
         try {
+            jedis = jedisPool.getResource();
             String val = convertValueToString(value);
             if (val == null || val.length() <= 0) {
                 return false;
             }
-            jedis = jedisPool.getResource();
+
             String indexKey = prefix.getPrefix() + key;
-            jedis.set(indexKey, val);
+            int timeToExpire = prefix.timeUntilExpiration();
+            if (timeToExpire <= 0) {
+                jedis.set(indexKey, val);
+            } else {
+                jedis.setex(indexKey, prefix.timeUntilExpiration(), val);
+            }
 
             return true;
+        } finally {
+            releaseJedisToPool(jedis);
+        }
+    }
+
+    public <T> Boolean exists(RedisKeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String fullKey = prefix.getPrefix() + key;
+
+            return jedis.exists(fullKey);
+        } finally {
+            releaseJedisToPool(jedis);
+        }
+    }
+
+    public <T> Long increment(RedisKeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String fullKey = prefix.getPrefix() + key;
+
+            return jedis.incr(fullKey);
+        } finally {
+            releaseJedisToPool(jedis);
+        }
+    }
+
+    public <T> Long decrement(RedisKeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String fullKey = prefix.getPrefix() + key;
+
+            return jedis.decr(fullKey);
         } finally {
             releaseJedisToPool(jedis);
         }
