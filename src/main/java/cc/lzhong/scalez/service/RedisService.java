@@ -32,12 +32,11 @@ public class RedisService {
     public <T> Boolean set(RedisKeyPrefix prefix, String key, T value) {
         Jedis jedis = null;
         try {
-            jedis = jedisPool.getResource();
             String val = convertValueToString(value);
             if (val == null || val.length() <= 0) {
                 return false;
             }
-
+            jedis = jedisPool.getResource();
             String indexKey = prefix.getPrefix() + key;
             jedis.set(indexKey, val);
 
