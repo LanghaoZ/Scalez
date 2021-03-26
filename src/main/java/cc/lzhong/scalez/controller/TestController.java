@@ -1,9 +1,11 @@
 package cc.lzhong.scalez.controller;
 
 import cc.lzhong.scalez.domain.User;
+import cc.lzhong.scalez.service.RedisService;
 import cc.lzhong.scalez.service.UserService;
 import cc.lzhong.scalez.util.AppMessage;
 import cc.lzhong.scalez.util.Result;
+import cc.lzhong.scalez.util.redis.UserKeyPrefix;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TestController {
 
     private final UserService userService;
+    private final RedisService redisService;
 
-    public TestController(UserService userService) {
+    public TestController(UserService userService, RedisService redisService) {
         this.userService = userService;
+        this.redisService = redisService;
     }
 
     @RequestMapping("/success")
@@ -37,5 +41,22 @@ public class TestController {
         User user = userService.getUserById(1);
 
         return Result.success(user);
+    }
+
+    @GetMapping("/redis/get")
+    @ResponseBody
+    public Result<User> returnRedisGet() {
+        User user = redisService.get(UserKeyPrefix.getPrefixById, "" + 2, User.class);
+        return Result.success(user);
+    }
+
+    @GetMapping("/redis/set")
+    @ResponseBody
+    public Result<Boolean> returnRedisSet() {
+        User user = new User();
+        user.setId(1);
+        user.setName("redis");
+        Boolean result = redisService.set(UserKeyPrefix.getPrefixById, "" + 2, user);
+        return Result.success(result);
     }
 }
