@@ -4,23 +4,44 @@ import cc.lzhong.scalez.dao.UserDao;
 import cc.lzhong.scalez.domain.User;
 import cc.lzhong.scalez.exception.type.GeneralException;
 import cc.lzhong.scalez.util.common.MD5Password;
+import cc.lzhong.scalez.util.redis.UserKeyPrefix;
 import cc.lzhong.scalez.util.response.AppMessage;
 import cc.lzhong.scalez.vo.AuthVo;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 @Service
 public class UserService {
 
     private final UserDao userDao;
+    private final RedisService redisService;
 
-    public UserService(UserDao userDao) {
+    public static final String COOKIE_TOKEN_FIELD = "token";
+
+    public UserService(UserDao userDao, RedisService redisService) {
         this.userDao = userDao;
+        this.redisService = redisService;
     }
 
     public User getUserById(Long id) {
         return userDao.getUserById(id);
+    }
+
+    public User getUserByToken(HttpServletResponse response, String token) {
+        if (StringUtils.isEmpty(token)) {
+            return null;
+        }
+
+        User user = redisService.get(UserKeyPrefix.byToken, token, User.class);
+        if (user != null) {
+            this.extendCookie(response, token, user);
+        }
+
+        return user;
     }
 
     public boolean login(HttpServletResponse response, AuthVo authVo) {
@@ -42,7 +63,23 @@ public class UserService {
             throw new GeneralException(AppMessage.INVALID_PASSWORD);
         }
 
+        String token = UUID.randomUUID().toString().replace("-", "");
+        redisService.set(UserKeyPrefix.byToken, token, user);
+
+        Cookie cookie = new Cookie(COOKIE_TOKEN_FIELD, token);
+        cookie.setMaxAge(UserKeyPrefix.byToken.timeUntilExpiration());
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
         return true;
+    }
+
+    public void extendCookie(HttpServletResponse response, String token, User user) {
+        redisService.set(UserKeyPrefix.byToken, token, user);
+        Cookie cookie = new Cookie(COOKIE_TOKEN_FIELD, token);
+        cookie.setMaxAge(UserKeyPrefix.byToken.timeUntilExpiration());
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 
 }

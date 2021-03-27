@@ -16,14 +16,12 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private static Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     private final UserService userService;
-    private RedisService redisService;
 
-    public AuthController(UserService userService, RedisService redisService) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.redisService = redisService;
     }
 
     @GetMapping("/login")

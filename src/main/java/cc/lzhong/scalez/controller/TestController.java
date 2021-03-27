@@ -46,7 +46,7 @@ public class TestController {
     @GetMapping("/redis/get")
     @ResponseBody
     public Result<User> returnRedisGet() {
-        User user = redisService.get(UserKeyPrefix.getPrefixById, "" + 2, User.class);
+        User user = redisService.get(UserKeyPrefix.byId, "" + 2, User.class);
         return Result.success(user);
     }
 
@@ -58,7 +58,7 @@ public class TestController {
         user.setName("redis");
         user.setPassword("password");
         user.setSalt("salt");
-        Boolean result = redisService.set(UserKeyPrefix.getPrefixById, "" + 2, user);
+        Boolean result = redisService.set(UserKeyPrefix.byId, "" + 2, user);
         return Result.success(result);
     }
 }

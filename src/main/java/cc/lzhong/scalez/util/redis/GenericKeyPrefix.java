@@ -19,8 +19,8 @@ public abstract class GenericKeyPrefix implements RedisKeyPrefix {
     }
 
     public String getPrefix() {
-        String classPrefix = getClass().getSimpleName();
-        return classPrefix + "-" + keyPrefix;
+        String classPrefix = getClass().getSimpleName().replace("KeyPrefix", "");
+        return classPrefix + "-" + keyPrefix + "-";
     }
 
 }

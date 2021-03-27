@@ -28,8 +28,7 @@ public class CustomExceptionHandler {
             ObjectError error = errors.get(0);
 
             String message = error.getDefaultMessage();
-            Result<String> result = Result.error(AppMessage.BIND_ERROR.fillArgs(message));
-            return result;
+            return Result.error(AppMessage.BIND_ERROR.fillArgs(message));
         } else {
             return Result.error(AppMessage.INTERNAL_ERROR);
         }
