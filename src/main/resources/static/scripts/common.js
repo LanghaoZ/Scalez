@@ -23,16 +23,14 @@ function submitLogin(){
         },
         success:function(data){
             layer.closeAll();
-            console.log(data)
             if(data.code == 1200){
                 layer.msg("Success");
                 window.location.href="/";
             }else{
-                layer.msg(data.msg);
+                layer.msg(data.message);
             }
         },
-        error:function(data){
-            console.log(data)
+        error:function(){
             layer.closeAll();
         }
     });
