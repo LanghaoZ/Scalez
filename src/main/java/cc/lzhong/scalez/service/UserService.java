@@ -38,7 +38,7 @@ public class UserService {
 
         User user = redisService.get(UserKeyPrefix.byToken, token, User.class);
         if (user != null) {
-            this.extendCookie(response, token, user);
+            this.configureCookie(response, token, user);
         }
 
         return user;
@@ -64,17 +64,12 @@ public class UserService {
         }
 
         String token = UUID.randomUUID().toString().replace("-", "");
-        redisService.set(UserKeyPrefix.byToken, token, user);
-
-        Cookie cookie = new Cookie(COOKIE_TOKEN_FIELD, token);
-        cookie.setMaxAge(UserKeyPrefix.byToken.timeUntilExpiration());
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        configureCookie(response, token, user);
 
         return true;
     }
 
-    public void extendCookie(HttpServletResponse response, String token, User user) {
+    public void configureCookie(HttpServletResponse response, String token, User user) {
         redisService.set(UserKeyPrefix.byToken, token, user);
         Cookie cookie = new Cookie(COOKIE_TOKEN_FIELD, token);
         cookie.setMaxAge(UserKeyPrefix.byToken.timeUntilExpiration());
