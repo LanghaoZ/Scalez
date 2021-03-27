@@ -1,0 +1,16 @@
+
+#loginBody {
+    position: relative;
+}
+
+#loginForm {
+    width: 40%;
+    height: 30px;
+    top: 0; bottom: 0; left: 0; right: 0;
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
