@@ -8,9 +8,6 @@ import cc.lzhong.scalez.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
-
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -43,7 +40,16 @@ public class ProductController {
     }
 
     @GetMapping("/detail/{id}")
-    public String renderProductDetail(@PathVariable("id") Long id, Model model) {
+    public String renderProductDetail(@PathVariable("id") Long id, Model model, User user) {
+
+        if (user == null) {
+            return "/auth/login";
+        }
+
+        Product product = productService.getProductById(id);
+
+        model.addAttribute("user", user);
+        model.addAttribute("product", product);
 
         return "product/detail";
     }

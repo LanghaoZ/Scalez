@@ -13,6 +13,37 @@
     <title>Product Detail</title>
 </head>
 <body>
-    <p>Under construction</p>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">Product Detail</div>
+            <table class="table" id="goodslist">
+                <tr>
+                    <td>Name</td>
+                    <td colspan="3" th:text="${product.name}"></td>
+                </tr>
+                <tr>
+                    <td>Event</td>
+                    <td colspan="3"><img src="/images/blackfriday.jpg" width="200" height="200" /></td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td colspan="3" th:text="${product.price}"></td>
+                </tr>
+                <tr>
+                    <td>Number Left</td>
+                    <td colspan="3" th:text="${product.count}"></td>
+                </tr>
+                <tr>
+                    <td>Ready?</td>
+                    <td>
+                        <form id="orderForm" method="post" action="/product/sell">
+                            <button class="btn btn-primary btn-block" type="submit" id="buyButton">Buy!</button>
+                            <input type="hidden" name="productId" th:value="${product.id}" />
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

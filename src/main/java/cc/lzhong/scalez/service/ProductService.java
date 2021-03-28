@@ -15,8 +15,16 @@ public class ProductService {
         this.productDao = productDao;
     }
 
+    public Product getProductById(Long id) {
+        return productDao.getProductById(id);
+    }
+
     public List<Product> getAllProducts() {
         return productDao.getAllProduct();
+    }
+
+    public void decrementCount(Product product) {
+        productDao.decrementCount(product);
     }
 
 }
