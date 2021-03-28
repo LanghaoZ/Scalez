@@ -2,9 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <div th:replace="/component/dependencies.html :: jquery"></div>
+    <div th:replace="/component/dependencies.html :: bootcss"></div>
+    <div th:replace="/component/dependencies.html :: bootjs"></div>
+    <div th:replace="/component/dependencies.html :: jqval"></div>
+    <div th:replace="/component/dependencies.html :: jqadd"></div>
+    <div th:replace="/component/dependencies.html :: commonjs"></div>
+    <div th:replace="/component/dependencies.html :: layerjs"></div>
+    <div th:replace="/component/dependencies.html :: md5js"></div>
+<!--    <div th:replace="/component/dependencies.html :: logincss"></div>-->
     <title>List of Products</title>
 </head>
 <body>
     <p th:text="'Hi, ' + ${user.getName()}"></p>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">All Products</div>
+        <table class="table" id="goodslist">
+            <tr>
+                <td>Name</td>
+                <td>Price</td>
+                <td>Stock Left</td>
+                <td>Detail</td>
+            </tr>
+            <tr  th:each="product,productDetail : ${products}">
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.count}"></td>
+                <td><a th:href="'/product/detail/'+${product.id}">View</a></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
