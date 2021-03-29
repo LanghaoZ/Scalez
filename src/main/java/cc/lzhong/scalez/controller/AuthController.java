@@ -1,6 +1,5 @@
 package cc.lzhong.scalez.controller;
 
-import cc.lzhong.scalez.service.RedisService;
 import cc.lzhong.scalez.service.UserService;
 import cc.lzhong.scalez.util.response.Result;
 import cc.lzhong.scalez.vo.AuthVo;

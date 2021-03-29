@@ -36,7 +36,7 @@
                 <tr>
                     <td>Ready?</td>
                     <td>
-                        <form id="orderForm" method="post" action="/product/sell">
+                        <form id="orderForm" method="post" action="/sell/v1">
                             <button class="btn btn-primary btn-block" type="submit" id="buyButton">Buy!</button>
                             <input type="hidden" name="productId" th:value="${product.id}" />
                         </form>

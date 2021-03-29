@@ -2,9 +2,7 @@ package cc.lzhong.scalez.controller;
 
 import cc.lzhong.scalez.domain.Product;
 import cc.lzhong.scalez.domain.User;
-import cc.lzhong.scalez.service.ProductService;
-import cc.lzhong.scalez.service.RedisService;
-import cc.lzhong.scalez.service.UserService;
+import cc.lzhong.scalez.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +12,10 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
-    private final UserService userService;
     private final RedisService redisService;
     private final ProductService productService;
 
-    public ProductController(UserService userService, RedisService redisService, ProductService productService) {
-        this.userService = userService;
+    public ProductController(RedisService redisService, ProductService productService) {
         this.redisService = redisService;
         this.productService = productService;
     }
@@ -28,7 +24,7 @@ public class ProductController {
     public String renderProductIndexView(Model model, User user) {
 
         if (user == null) {
-            return "/auth/login";
+            return "auth/login";
         }
 
         List<Product> products = productService.getAllProducts();
@@ -43,7 +39,7 @@ public class ProductController {
     public String renderProductDetail(@PathVariable("id") Long id, Model model, User user) {
 
         if (user == null) {
-            return "/auth/login";
+            return "auth/login";
         }
 
         Product product = productService.getProductById(id);
@@ -53,4 +49,5 @@ public class ProductController {
 
         return "product/detail";
     }
+
 }
