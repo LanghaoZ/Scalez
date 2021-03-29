@@ -41,11 +41,11 @@ public class SaleController {
             return "order/failure";
         }
 
-        Order order = orderService.getOrderByUserAndProduct(user.getId(), productId);
-        if (order != null) {
-            model.addAttribute("message", AppMessage.ONLY_ONE_PER_USER.getMessage());
-            return "order/failure";
-        }
+//        Order order = orderService.getOrderByUserAndProduct(user.getId(), productId);
+//        if (order != null) {
+//            model.addAttribute("message", AppMessage.ONLY_ONE_PER_USER.getMessage());
+//            return "order/failure";
+//        }
 
         OrderDetail orderDetail = saleService.sellV1(user, product);
         model.addAttribute("orderDetail", orderDetail);
