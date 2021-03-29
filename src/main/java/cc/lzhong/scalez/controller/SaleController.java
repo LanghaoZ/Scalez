@@ -16,16 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/sell")
 public class SaleController {
 
-    private final UserService userService;
     private final RedisService redisService;
     private final ProductService productService;
     private final OrderService orderService;
     private final SaleService saleService;
 
-    public SaleController(UserService userService, RedisService redisService,
-                             ProductService productService, OrderService orderService,
-                             SaleService saleService) {
-        this.userService = userService;
+    public SaleController(RedisService redisService, ProductService productService, OrderService orderService, SaleService saleService) {
         this.redisService = redisService;
         this.productService = productService;
         this.orderService = orderService;
