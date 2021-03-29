@@ -23,13 +23,8 @@ public class ProductController {
     @GetMapping("/index")
     public String renderProductIndexView(Model model, User user) {
 
-        if (user == null) {
-            return "auth/login";
-        }
-
         List<Product> products = productService.getAllProducts();
 
-        model.addAttribute("user", user);
         model.addAttribute("products", products);
 
         return "product/index";
@@ -37,10 +32,6 @@ public class ProductController {
 
     @GetMapping("/detail/{id}")
     public String renderProductDetail(@PathVariable("id") Long id, Model model, User user) {
-
-        if (user == null) {
-            return "auth/login";
-        }
 
         Product product = productService.getProductById(id);
 
