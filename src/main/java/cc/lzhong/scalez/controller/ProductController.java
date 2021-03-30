@@ -44,7 +44,7 @@ public class ProductController {
         return "product/index";
     }
 
-    @GetMapping(value = "/index/", produces = "text/html")
+    @GetMapping(value = "/index", produces = "text/html")
     @ResponseBody
     public String renderProductIndexView(HttpServletRequest request, HttpServletResponse response, Model model, User user) {
 
@@ -63,6 +63,16 @@ public class ProductController {
         }
 
         return html;
+    }
+
+    @GetMapping(value = "/detail/deprecated/{id}", produces = "text/html")
+    public String deprecatedProductDetail(@PathVariable("id") Long id, Model model, User user) {
+
+        Product product = productService.getProductById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("product", product);
+
+        return "product/detail";
     }
 
     @GetMapping(value = "/detail/{id}", produces = "text/html")
