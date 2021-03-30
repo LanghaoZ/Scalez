@@ -35,7 +35,7 @@ public class ProductController {
         this.thymeleafViewResolver = thymeleafViewResolver;
     }
 
-    @GetMapping(value = "/index/deprecated", produces = "text/html")
+    @GetMapping(value = "/index/deprecated")
     public String deprecatedProductIndexView(Model model, User user) {
 
         List<Product> products = productService.getAllProducts();
