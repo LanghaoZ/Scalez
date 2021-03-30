@@ -22,12 +22,14 @@
                 <td>Price</td>
                 <td>Stock Left</td>
                 <td>Detail</td>
+                <td>Detail2</td>
             </tr>
             <tr  th:each="product,productDetail : ${products}">
                 <td th:text="${product.name}"></td>
                 <td th:text="${product.price}"></td>
                 <td th:text="${product.count}"></td>
                 <td><a th:href="'/product/detail/'+${product.id}">View</a></td>
+                <td><a th:href="'/webpage/productDetail.htm?productId=' + ${product.id}">View2</a></td>
             </tr>
         </table>
     </div>

@@ -25,7 +25,7 @@ function submitLogin(){
             layer.closeAll();
             if(data.code == 1200){
                 layer.msg("Success");
-                window.location.href="/product/index";
+                window.location.href="/product/index/";
             }else{
                 layer.msg(data.message);
             }

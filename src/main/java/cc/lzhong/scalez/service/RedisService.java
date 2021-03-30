@@ -28,7 +28,7 @@ public class RedisService {
         }
     }
 
-    public <T> Boolean set(RedisKeyPrefix prefix, String key, T value) {
+    public <T> boolean set(RedisKeyPrefix prefix, String key, T value) {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
@@ -46,6 +46,19 @@ public class RedisService {
             }
 
             return true;
+        } finally {
+            releaseJedisToPool(jedis);
+        }
+    }
+
+    public boolean delete(RedisKeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String indexKey = prefix.getPrefix() + key;
+            long ret = jedis.del(indexKey);
+
+            return ret > 0;
         } finally {
             releaseJedisToPool(jedis);
         }

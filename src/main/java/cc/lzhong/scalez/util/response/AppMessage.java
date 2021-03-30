@@ -11,6 +11,7 @@ public class AppMessage {
     public static AppMessage INVALID_PHONE_NUMBER = new AppMessage(1310, "Please enter a valid phone number");
     public static AppMessage INVALID_PASSWORD = new AppMessage(1320, "Password entered does not match");
     public static AppMessage INVALID_USER = new AppMessage(1330, "User does not exist");
+    public static AppMessage SESSION_OVER = new AppMessage(1340, "No valid session. Please login before proceeding");
 
     public static AppMessage INSUFFICIENT_QUANTITY = new AppMessage(1410, "This product has sold all its quantity");
     public static AppMessage ONLY_ONE_PER_USER = new AppMessage(1420, "Currently, each customer can only purchase 1 product");
