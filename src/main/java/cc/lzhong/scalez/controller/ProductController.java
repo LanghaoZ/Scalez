@@ -65,7 +65,7 @@ public class ProductController {
         return html;
     }
 
-    @GetMapping(value = "/detail/deprecated/{id}", produces = "text/html")
+    @GetMapping(value = "/detail/deprecated/{id}")
     public String deprecatedProductDetail(@PathVariable("id") Long id, Model model, User user) {
 
         Product product = productService.getProductById(id);
