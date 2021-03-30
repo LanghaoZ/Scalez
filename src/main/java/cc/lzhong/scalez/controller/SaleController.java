@@ -6,11 +6,13 @@ import cc.lzhong.scalez.domain.Product;
 import cc.lzhong.scalez.domain.User;
 import cc.lzhong.scalez.service.*;
 import cc.lzhong.scalez.util.response.AppMessage;
+import cc.lzhong.scalez.util.response.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/sell")
@@ -52,5 +54,23 @@ public class SaleController {
         model.addAttribute("product", product);
 
         return "order/detail";
+    }
+
+    @PostMapping("/v2")
+    @ResponseBody
+    public Result<OrderDetail> sellProductV2(Model model, User user, @RequestParam("productId") Long productId) {
+        if (user == null) {
+            return Result.error(AppMessage.SESSION_OVER);
+        }
+
+        Product product = productService.getProductById(productId);
+        int count = product.getCount();
+        if (count <= 0) {
+            return Result.error(AppMessage.INSUFFICIENT_QUANTITY);
+        }
+
+        OrderDetail orderDetail = saleService.sellV1(user, product);
+
+        return Result.success(orderDetail);
     }
 }

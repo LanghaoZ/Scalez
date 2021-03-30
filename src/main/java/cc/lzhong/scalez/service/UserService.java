@@ -28,7 +28,17 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userDao.getUserById(id);
+        User user = redisService.get(UserKeyPrefix.byId, id.toString(), User.class);
+        if (user != null) {
+            return user;
+        }
+
+        user = userDao.getUserById(id);
+        if (user != null) {
+            redisService.set(UserKeyPrefix.byId, id.toString(), user);
+        }
+
+        return user;
     }
 
     public User getUserByToken(HttpServletResponse response, String token) {
