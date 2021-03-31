@@ -22,4 +22,10 @@ public class SaleService {
         productService.decrementCount(product);
         return orderService.createOrder(user, product);
     }
+
+    @Transactional
+    public OrderDetail sellV2Safe(User user, Product product) {
+        productService.decrementCountSafe(product);
+        return orderService.createOrder(user, product);
+    }
 }

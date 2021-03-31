@@ -19,4 +19,7 @@ public interface ProductDao {
 
     @Update("update Product set count = count - 1 where id=#{id}")
     public int decrementCount(Product product);
+
+    @Update("update Product set count = count - 1 where id=#{id} and count > 0")
+    public int decrementCountSafe(Product product);
 }
