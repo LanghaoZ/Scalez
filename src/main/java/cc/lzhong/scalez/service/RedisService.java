@@ -1,7 +1,7 @@
 package cc.lzhong.scalez.service;
 
+import cc.lzhong.scalez.util.common.StringValueConverter;
 import cc.lzhong.scalez.util.redis.RedisKeyPrefix;
-import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -22,7 +22,7 @@ public class RedisService {
             String indexKey = prefix.getPrefix() + key;
             String value = jedis.get(indexKey);
 
-            return convertStringToValue(value, valueClass);
+            return StringValueConverter.convertStringToValue(value, valueClass);
         } finally {
             releaseJedisToPool(jedis);
         }
@@ -32,7 +32,7 @@ public class RedisService {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            String val = convertValueToString(value);
+            String val = StringValueConverter.convertValueToString(value);
             if (val == null || val.length() <= 0) {
                 return false;
             }
@@ -97,38 +97,6 @@ public class RedisService {
             return jedis.decr(fullKey);
         } finally {
             releaseJedisToPool(jedis);
-        }
-    }
-
-    private <T> T convertStringToValue(String value, Class<T> valueClass) {
-        if (value == null || value.length() <= 0 ||
-                valueClass == null) {
-            return null;
-        } else if (valueClass == int.class || valueClass == Integer.class) {
-            return (T)Integer.valueOf(value);
-        } else if (valueClass == long.class || valueClass == Long.class) {
-            return (T)Long.valueOf(value);
-        } else if (valueClass == String.class) {
-            return (T)value;
-        } else {
-            return JSON.toJavaObject(JSON.parseObject(value), valueClass);
-        }
-    }
-
-    private <T> String convertValueToString(T value) {
-        if (value == null) {
-            return null;
-        }
-
-        Class<?> valueClass = value.getClass();
-        if (valueClass == int.class || valueClass == Integer.class) {
-            return value.toString();
-        } else if (valueClass == long.class || valueClass == Long.class) {
-            return value.toString();
-        } else if (valueClass == String.class) {
-            return (String)value;
-        } else {
-            return JSON.toJSONString(value);
         }
     }
 
