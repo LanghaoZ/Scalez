@@ -3,6 +3,7 @@ package cc.lzhong.scalez.controller;
 import cc.lzhong.scalez.domain.User;
 import cc.lzhong.scalez.service.RedisService;
 import cc.lzhong.scalez.service.UserService;
+import cc.lzhong.scalez.util.queue.Sender;
 import cc.lzhong.scalez.util.response.AppMessage;
 import cc.lzhong.scalez.util.response.Result;
 import cc.lzhong.scalez.util.redis.UserKeyPrefix;
@@ -17,10 +18,12 @@ public class TestController {
 
     private final UserService userService;
     private final RedisService redisService;
+    private final Sender sender;
 
-    public TestController(UserService userService, RedisService redisService) {
+    public TestController(UserService userService, RedisService redisService, Sender sender) {
         this.userService = userService;
         this.redisService = redisService;
+        this.sender = sender;
     }
 
     @RequestMapping("/success")
@@ -60,5 +63,12 @@ public class TestController {
         user.setSalt("salt");
         Boolean result = redisService.set(UserKeyPrefix.byId, "" + 2, user);
         return Result.success(result);
+    }
+
+    @GetMapping("/queue/send")
+    @ResponseBody
+    public Result<String> sendMessage() {
+        sender.sendMessage("graduating in S21.");
+        return Result.success("Validating Queuing");
     }
 }
