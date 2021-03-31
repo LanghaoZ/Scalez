@@ -23,6 +23,10 @@ public class OrderService {
         return orderDao.getOrderByUserAndProduct(userId, productId);
     }
 
+    public OrderDetail getOrderById(Long orderId) {
+        return orderDao.getOrderById(orderId);
+    }
+
     @Transactional
     public OrderDetail createOrder(User user, Product product) {
         OrderDetail orderDetail = new OrderDetail();

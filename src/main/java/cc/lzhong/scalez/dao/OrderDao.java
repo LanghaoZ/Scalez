@@ -10,6 +10,9 @@ public interface OrderDao {
     @Select("select * from `Order` where user_id=#{userId} and product_id=#{productId}")
     public Order getOrderByUserAndProduct(@Param("userId") Long userId, @Param("productId") Long productId);
 
+    @Select("select * from `OrderDetail` where id=#{orderId}")
+    public OrderDetail getOrderById(@Param("orderId") Long orderId);
+
     @Insert("insert into OrderDetail(user_id, product_id, product_name, status, create_time) " +
             "values(#{userId}, #{productId}, #{productName}, #{status}, #{createTime})")
     @SelectKey(keyColumn = "id", keyProperty = "id", resultType = Long.class, before = false, statement = "select last_insert_id()")
