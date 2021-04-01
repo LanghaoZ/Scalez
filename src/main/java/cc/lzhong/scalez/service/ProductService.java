@@ -27,8 +27,9 @@ public class ProductService {
         productDao.decrementCount(product);
     }
 
-    public void decrementCountSafe(Product product) {
-        productDao.decrementCountSafe(product);
+    public boolean decrementCountSafe(Product product) {
+        int res = productDao.decrementCountSafe(product);
+        return res > 0;
     }
 
 }

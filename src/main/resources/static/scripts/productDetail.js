@@ -43,14 +43,14 @@ function renderPage(product) {
 
 function performBuyAction() {
     $.ajax({
-        url: "/sell/v2",
+        url: "/sell/v3",
         type: "POST",
         data: {
             productId: $("#productId").val()
         },
         success: function(data) {
             if (data.code == 1200) {
-                window.location.href = "/webpage/orderDetail.htm?orderId=" + data.data.id;
+                retrieveResult(data.data);
             } else {
                 console.log(data);
                 layer.msg(data.message);
@@ -60,4 +60,38 @@ function performBuyAction() {
             layer.msg("Request to backend failed");
         }
     })
+}
+
+function retrieveResult(uuid) {
+    displayLoadingPage();
+    $.ajax({
+        url: "/sell/result",
+        type: "GET",
+        data: {
+            id: uuid
+        },
+        success: function(data) {
+            if (data.code == 1200) {
+                layer.msg("Congrats! Your order was successful");
+                window.location.href="/webpage/orderDetail.htm?orderId=" + data.data.id;
+            } else if (data.code == 1450) {
+                setTimeout(function(){
+                    retrieveResult(uuid);
+                }, 50);
+            } else if (data.code == 1460) {
+                layer.msg("Sorry. Your order was unsuccessful.");
+            } else {
+                console.log(data);
+                layer.msg(data.message);
+            }
+        },
+        error: function() {
+            layer.msg("Request to backend failed");
+        }
+    })
+}
+
+function displayLoadingPage(){
+    var idx = layer.msg('Processing...', {icon: 16,shade: [0.5, '#f5f5f5'],scrollbar: false,offset: '0px', time:100000}) ;
+    return idx;
 }
