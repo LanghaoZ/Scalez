@@ -11,4 +11,5 @@ public class ProductKeyPrefix extends GenericKeyPrefix {
     }
 
     public static ProductKeyPrefix webView = new ProductKeyPrefix(60, "vi");
+    public static ProductKeyPrefix quantity = new ProductKeyPrefix(0, "cnt");
 }

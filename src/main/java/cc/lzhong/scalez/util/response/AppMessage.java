@@ -17,6 +17,8 @@ public class AppMessage {
     public static AppMessage ONLY_ONE_PER_USER = new AppMessage(1420, "Currently, each customer can only purchase 1 product");
     public static AppMessage INVALID_ORDER = new AppMessage(1430, "Order requested does not exist.");
     public static AppMessage PRODUCT_INVALIDATED = new AppMessage(1440, "Purchased product no long exists.");
+    public static AppMessage ORDER_PENDING = new AppMessage(1450, "Order still pending");
+    public static AppMessage ORDER_UNSUCCESSFUL = new AppMessage(1460, "Order unsuccessful");
 
     public static AppMessage INTERNAL_ERROR = new AppMessage(1500, "Sever Error");
 
