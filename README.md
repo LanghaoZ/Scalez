@@ -7,6 +7,9 @@ Scalz is developed as my Capstone project for UCLA's Master's degree in Computer
 ### Dependencies
 - [Java 11](https://jdk.java.net/11/)
 - [Maven](https://maven.apache.org/)
+- [MySQL](https://www.mysql.com/)
+- [Redis](https://redis.io/)
+- [RabbitMQ](https://www.rabbitmq.com/)
 
 ## Local Development
 
